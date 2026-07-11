@@ -2109,7 +2109,7 @@ Seiring waktu, jaringan zawiyah ini saling terhubung melalui sanad dan silaturah
     document.getElementById('bab-detail-body').innerHTML = `
       <p class="card-eyebrow" style="color:var(--emerald-700)">BAB ${b.num}</p>
       <h3 class="greet-name" style="font-size:22px;margin-bottom:14px;">${b.title}</h3>
-      <p class="prose">${b.content}</p>
+      <div class="prose">${b.content}</div>
     `;
     setBookmarkContext('bab-'+idx, `BAB ${b.num} — ${b.title}`);
   }
@@ -2899,7 +2899,8 @@ Seiring waktu, jaringan zawiyah ini saling terhubung melalui sanad dan silaturah
     if(section === 'bab'){
       const b = idx!=null ? BAB[idx] : { num:String(BAB.length+1).padStart(2,'0'), title:'', content:'' };
       title = idx!=null ? 'Edit BAB' : 'Tambah BAB';
-      html = field('Nomor BAB','f-num',b.num) + field('Judul','f-title',b.title) + field('Isi / Konten','f-content',b.content,'textarea');
+      html = field('Nomor BAB','f-num',b.num) + field('Judul','f-title',b.title)
+        + richField('Isi / Konten','f-content',b.content,{ placeholder:'Tulis atau tempel isi BAB di sini…' });
     } else if(section === 'agenda'){
       const a = idx!=null ? AGENDA[idx] : { title:'', when:'', place:'', desc:'' };
       title = idx!=null ? 'Edit Agenda' : 'Tambah Agenda';
