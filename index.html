@@ -2157,6 +2157,14 @@ Seiring waktu, jaringan zawiyah ini saling terhubung melalui sanad dan silaturah
     const z = ZAWIYAH[idx];
     if(!z) return;
     document.getElementById('zawiyah-detail-title').textContent = z.name;
+    const actionBtns = [];
+    if(z.phone){
+      actionBtns.push(`<a href="tel:${z.phone.replace(/[^\d+]/g,'')}" class="btn btn--outline" style="flex:1;display:flex;align-items:center;justify-content:center;padding:9px 10px;font-size:13px;">${ICONS.phone}<span style="margin-left:6px;">Telepon</span></a>`);
+      actionBtns.push(`<a href="https://wa.me/${z.phone.replace(/\D/g,'')}" target="_blank" rel="noopener" class="btn btn--outline" style="flex:1;display:flex;align-items:center;justify-content:center;padding:9px 10px;font-size:13px;">${ICONS.whatsapp}<span style="margin-left:6px;">WhatsApp</span></a>`);
+    }
+    if(z.mapsUrl){
+      actionBtns.push(`<a href="${z.mapsUrl}" target="_blank" rel="noopener" class="btn btn--outline" style="flex:1;display:flex;align-items:center;justify-content:center;padding:9px 10px;font-size:13px;">${ICONS.mapPin}<span style="margin-left:6px;">Maps</span></a>`);
+    }
     document.getElementById('zawiyah-detail-body').innerHTML = `
       <div class="zawiyah-card__thumb" style="width:56px;height:56px;margin-bottom:14px;">${ICONS.mapPin}</div>
       <h3 class="greet-name" style="font-size:20px;margin-bottom:4px;">${z.name}</h3>
@@ -2166,17 +2174,9 @@ Seiring waktu, jaringan zawiyah ini saling terhubung melalui sanad dan silaturah
       ${z.phone ? `
         <p class="hikam-label">Kontak</p>
         <p class="prose" style="margin-bottom:10px;">${z.phone}</p>
-        <div style="display:flex;gap:10px;margin-bottom:18px;">
-          <a href="tel:${z.phone.replace(/[^\d+]/g,'')}" class="btn btn--outline" style="width:auto;display:inline-flex;align-items:center;padding:9px 16px;font-size:13px;">${ICONS.phone}<span style="margin-left:6px;">Telepon</span></a>
-          <a href="https://wa.me/${z.phone.replace(/\D/g,'')}" target="_blank" rel="noopener" class="btn btn--outline" style="width:auto;display:inline-flex;align-items:center;padding:9px 16px;font-size:13px;">${ICONS.whatsapp}<span style="margin-left:6px;">WhatsApp</span></a>
-        </div>
       ` : ''}
-      ${z.mapsUrl ? `
-        <div class="media-video-wrap" style="padding-top:45%;margin-bottom:14px;">
-          <iframe class="media-video-embed" src="${z.mapsUrl.replace('/maps?','/maps?output=embed&')}" loading="lazy"></iframe>
-        </div>
-        <a href="${z.mapsUrl}" target="_blank" rel="noopener" class="btn btn--solid" style="width:auto;display:inline-flex;justify-content:center;padding:9px 16px;font-size:13px;">${ICONS.mapPin}<span style="margin-left:6px;">Buka di Google Maps</span></a>
-      ` : `<p class="media-audio-placeholder">${ICONS.mapPin}<span>Link Google Maps belum ditambahkan oleh admin.</span></p>`}
+      ${actionBtns.length ? `<div style="display:flex;gap:8px;margin-bottom:18px;">${actionBtns.join('')}</div>` : ''}
+      ${!z.mapsUrl ? `<p class="media-audio-placeholder">${ICONS.mapPin}<span>Link Google Maps belum ditambahkan oleh admin.</span></p>` : ''}
     `;
     setBookmarkContext('zawiyah-'+idx, z.name);
   }
